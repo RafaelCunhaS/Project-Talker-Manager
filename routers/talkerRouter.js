@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const fs = require('fs');
-const { OK_STATUS, NOT_FOUND, CREATED } = require('../statusCode');
+const { OK_STATUS, NOT_FOUND, CREATED, NO_CONTENT } = require('../statusCode');
 const { 
   validateAuthorization, 
   validateName, validateAge,
@@ -51,6 +51,16 @@ validateAge, validateTalk, validateDateAndRate, (req, res) => {
   
   fs.writeFileSync(TALKER_PATH, JSON.stringify(filtered));
   return res.status(OK_STATUS).json(newTalker);
+});
+
+router.delete('/:id', validateAuthorization, (req, res) => {
+  const { id } = req.params;
+  const talkers = JSON.parse(fs.readFileSync(TALKER_PATH));
+
+  const deleted = talkers.filter((talker) => talker.id !== Number(id));
+  
+  fs.writeFileSync(TALKER_PATH, JSON.stringify(deleted));
+  return res.status(NO_CONTENT).end();
 });
 
 module.exports = router;
