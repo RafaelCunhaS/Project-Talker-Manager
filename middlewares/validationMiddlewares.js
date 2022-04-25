@@ -71,7 +71,7 @@ const validateTalk = (req, _res, next) => {
 
   const { talk: { watchedAt, rate } } = req.body;
 
-  if (!watchedAt || !rate) {
+  if (!watchedAt || rate === undefined || rate === null) {
     next(error);
   }
 
