@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const talkerRouter = require('./routers/talkerRouter');
+const loginRouter = require('./routers/loginRouter');
 const error = require('./middlewares/errorMiddleware');
 
 const app = express();
@@ -15,6 +16,8 @@ app.get('/', (_request, response) => {
 });
 
 app.use('/talker', talkerRouter);
+
+app.use('/login', loginRouter);
 
 app.use(error);
 
