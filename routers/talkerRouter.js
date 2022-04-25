@@ -13,6 +13,17 @@ router.get('/', (_req, res) => {
   return res.status(OK_STATUS).json(JSON.parse(result));
 });
 
+router.get('/search', validateAuthorization, (req, res) => {
+  const { q } = req.query;
+  const talkers = JSON.parse(fs.readFileSync(TALKER_PATH));
+
+  if (!q) return res.status(OK_STATUS).json(talkers);
+
+  const search = talkers.filter((talker) => talker.name.includes(q));
+  
+  return res.status(OK_STATUS).json(search);
+});
+
 router.get('/:id', (req, res, next) => {
   const { id } = req.params;
   const talkers = JSON.parse(fs.readFileSync(TALKER_PATH));
